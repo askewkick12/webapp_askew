@@ -13,6 +13,7 @@ from aiohttp import web
 
 #前面的async是异步io，不加也可以运行
 async def index(request):
+    #request -->server --> response
   return web.Response(body=b'<h1>Awsome</h1>',content_type='text/html')
 
 def init():

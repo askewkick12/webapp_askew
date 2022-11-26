@@ -6,21 +6,20 @@ import logging
 logging.basicConfig(level=logging.INFO)
 
 import asyncio,os,json,time
-from datetime import datetime
+#from datetime import datetime
+#加不加上面这行目前没看出区别
 
 from aiohttp import web
 
-def index(request):
+#前面的async是异步io，不加也可以运行
+async def index(request):
   return web.Response(body=b'<h1>Awsome</h1>',content_type='text/html')
 
-@asyncio.coroutine
-def init(loop):
-     app=web.Application(loop=loop)
-     app.router.add_route('GET','/',index)
-     srv=yield from loop.create_server(app.make_handler(),'127.0.0.1',9000)
-     logging.info('server started at http://127.0.0.1:9000...')
-     return srv
+def init():
+    #web app的骨架
+     app=web.Application()
+     app.router.add_get('/',index)
+     web.run_app(app,host='127.0.0.1',port=7000)
 
-loop=asyncio.get_event_loop()
-loop.run_until_complete(init(loop))
-loop.run_forever()
+if __name__=='__main__':
+    init()
